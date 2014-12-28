@@ -6,7 +6,7 @@ module fq_tb();
 
   logic clk;
   logic rst;
-  logic fifo_empty [2**NUM_IN_LOG2-1:0];
+  logic fifo_empty[2**NUM_IN_LOG2-1:0];
   logic [63:0] fifo_data [2**NUM_IN_LOG2-1:0];
   logic fifo_rdreq [2**NUM_IN_LOG2-1:0];
   logic output_data_valid;
