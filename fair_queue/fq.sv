@@ -24,13 +24,13 @@ module fq #(parameter NUM_IN_LOG2=3)
 	integer unsigned t; //virtual time
 
 	logic [31:0] counts [2**NUM_IN_LOG2-1:0]; //first 8 bits of each channel (count)
-
+/*
 genvar j;
 generate for(j=0;j<2**NUM_IN_LOG2;j=j+1) begin
 	assign counts[j] = t+{24'b0,fifo_data[j][7:0]};
 end
 endgenerate
-
+*/
 
 	byte unsigned total; //# packets total to output
 	byte unsigned count; //current # packets output
@@ -51,11 +51,13 @@ generate for(i=0;i<2**NUM_IN_LOG2;i=i+1) begin
 	always_ff @(posedge clk) begin
 		if(rst) begin
 			valid[i] <= 1'b0;
-			//counts[i]<='b0;
+			counts[i]<='b0;
 		end else begin
 			if(!fifo_empty[i] && !running[i]) begin //available for selection
 				valid[i] <= 1'b1;
-				//counts[i] <= t+{24'b0,fifo_data[i][7:0]};
+				if(!valid[i]) begin //need to enqueue
+					counts[i] <= t+{24'b0,fifo_data[i][7:0]};
+				end
 			end else begin 
 				valid[i] <= 1'b0; //not available for selection
 				if(fifo_empty[i]) begin
@@ -93,18 +95,21 @@ endgenerate
 			t <= 0;
 		end else begin
 			//change this if additional output channels
-			if(&running) begin //something is already outputting
+			if(running[0] || running[1] || running[2] ||
+				running[3] || running[4] || running[5]||
+				running[6] || running[7]) begin //something is already outputting
 				//output record
 				output_data <= fifo_data[current];
 				output_data_valid <= 1'b1;
 				fifo_rdreq[current] <= 1'b1;
 				//set others to 0
-				count <= count + 1;
+				count <= count + 1'b1;
 				t <= t+1;
 
 				//check if last packet to avoid 1 cycle bubble
-				if((count+1)==total) begin //last packet 
-					running[current] <= 1'b0;					
+				if((count+1'b1)==total) begin //last packet 
+					running[current] <= 1'b0;
+					count <= 'b0;					
 				end
 			end else begin
 				if(valid_o) begin //something selected to be output

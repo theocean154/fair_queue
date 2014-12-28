@@ -23,30 +23,37 @@ module queue_up #(parameter NUM_IN_LOG2=3)
 
     /* nice disgusting combinational block */
     always_comb begin
-    	min_size = 'b1; //not correct
+    	min_size = 32'b1111_1111_1111_1111_1111_1111_1111_1111; //not correct
 
     	if(valid_i[0] && count[0]<min_size) begin
     		min_size=count[0];
     		min_index = 3'b000;
-    	end else if(valid_i[1] && count[1] < min_size) begin
+    	end 
+    	if(valid_i[1] && count[1] < min_size) begin
     		min_size=count[1];
     		min_index = 3'b001;
-    	end else if(valid_i[2] && count[2] < min_size) begin
+    	end 
+    	if(valid_i[2] && count[2] < min_size) begin
 			min_size=count[2];
     		min_index = 3'b010;
-    	end else if(valid_i[3] && count[3] < min_size) begin
+    	end 
+    	if(valid_i[3] && count[3] < min_size) begin
     		min_size=count[3];
     		min_index = 3'b011;
-    	end else if(valid_i[4] && count[4] < min_size) begin
+    	end 
+    	if(valid_i[4] && count[4] < min_size) begin
     		min_size=count[4];
     		min_index = 3'b100;
-    	end else if(valid_i[5] && count[5] < min_size) begin
+    	end 
+    	if(valid_i[5] && count[5] < min_size) begin
     		min_size=count[5];
     		min_index = 3'b101;
-    	end else if(valid_i[6] && count[6] < min_size) begin
+    	end 
+    	if(valid_i[6] && count[6] < min_size) begin
     		min_size=count[6];
     		min_index = 3'b110;
-    	end else if(valid_i[7] && count[7] < min_size) begin
+    	end 
+    	if(valid_i[7] && count[7] < min_size) begin
     		min_size=count[7];
     		min_index = 3'b111;
     	end
@@ -70,6 +77,8 @@ module queue_up #(parameter NUM_IN_LOG2=3)
 				valid_o <= 1'b1;
 				if(&min_t) begin
 				end
+			end else begin
+				valid_o <= 1'b0;
 			end
 		end
 	end
