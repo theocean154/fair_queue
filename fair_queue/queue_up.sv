@@ -5,7 +5,7 @@ module queue_up #(parameter NUM_IN_LOG2=3)
 (
 	clk, rst,
 	count, valid_i,
-	order, valid_o
+	pick, valid_o
 );
 	input logic clk, rst;
 	input logic [7:0] count [2**NUM_IN_LOG2-1:0];
