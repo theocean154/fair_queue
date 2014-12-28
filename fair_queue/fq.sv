@@ -3,33 +3,24 @@
 
 module fq #(parameter NUM_IN_LOG2=3)
 (
-	clk, rst,
-	fifo_rdreq,
-	fifo_empty,
-	fifo_data,
-	output_data_valid,
-	output_data
+	input logic clk, rst,
+	output logic fifo_rdreq [2**NUM_IN_LOG2-1:0],
+	input fifo_empty[2**NUM_IN_LOG2-1:0],
+	input [63:0] fifo_data [2**NUM_IN_LOG2-1:0],
+	output output_data_valid,
+	output [63:0] output_data
 );
-	input logic clk, rst;
-	input logic fifo_empty [2**NUM_IN_LOG2-1:0];
-	input logic [63:0] fifo_data [2**NUM_IN_LOG2-1:0];
-	output logic fifo_rdreq [2**NUM_IN_LOG2-1:0];
-	output logic output_data_valid;
-	output logic [63:0] output_data;
-
 
 
 	//integer queue [2**NUM_IN_LOG2-1:0]; //end times 32 bit wraparound
 	logic [2**NUM_IN_LOG2-1:0] running; //currently outputting
-
-	integer t; //current t
 
 	logic valid[2**NUM_IN_LOG2-1:0]; //input is ready
 	logic [NUM_IN_LOG2-1:0] pick; //which channel to select
 	logic valid_o; //selected channel is valid 
 
 	logic [7:0] counts [2**NUM_IN_LOG2-1:0]; //first 8 bits of each channel (count)
-	wire [2**NUM_IN_LOG2-1:0] rdreq;
+	logic [2**NUM_IN_LOG2-1:0] rdreq;
 
 genvar j;
 generate for(j=0;j<2**NUM_IN_LOG2;j=j+1) begin

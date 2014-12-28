@@ -13,7 +13,9 @@ module fq_tb();
   logic [63:0] output_data;
 
   fq #(.NUM_IN_LOG2(NUM_IN_LOG2))
-  fq_inst(.*);
+  fq_inst(.clk(clk),.rst(rst),.fifo_empty(fifo_empty),
+    .fifo_data(fifo_data),.fifo_rdreq(fifo_rdreq),
+    .output_data(output_data),.output_data_valid(output_data_valid));
 
 
   initial begin
