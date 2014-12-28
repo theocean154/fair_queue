@@ -102,22 +102,15 @@ endgenerate
 					output_data <= fifo_data[pick];
 					output_data_valid <= 1'b1;
 					rdreq[pick] <= 1'b1;
+				end else begin
+					rdreq <= 'b0;
+					current <= 'b0;
+					output_data_valid <= 1'b0;
 				end
 			end
 		end
 	end
 
-/*
-	always_ff @(posedge clk) begin
-		if(rst) begin
-			output_data <= 'b0;
-			output_data_valid <= 'b0;
-		end else begin
-			if(&running) begin
 
-			end
-		end
-	end
-*/
 
 endmodule
