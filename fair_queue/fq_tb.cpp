@@ -17,6 +17,16 @@ int main(int argc, char **argv, char **env) {
   // initialize simulation inputs
   top->clk = 1;
   top->rst = 1;
+  top->fifo_empty[0] = 1;
+  top->fifo_empty[1] = 1;
+  top->fifo_empty[2] = 1;
+  top->fifo_empty[3] = 1;
+  top->fifo_empty[4] = 1;
+  top->fifo_empty[5] = 1;
+  top->fifo_empty[6] = 1;
+  top->fifo_empty[7] = 1;
+
+
   //top->cen = 0;
   //top->wen = 0;
   //top->dat = 0x55;

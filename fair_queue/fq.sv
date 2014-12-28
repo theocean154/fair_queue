@@ -19,9 +19,9 @@ module fq #(parameter NUM_IN_LOG2=3)
 	logic valid[2**NUM_IN_LOG2-1:0]; //input is ready
 	logic [NUM_IN_LOG2-1:0] pick; //which channel to select
 	logic valid_o; //selected channel is valid 
-	logic [7:0] size;
+	//logic [7:0] size;
 
-	integer t; //virtual time
+	integer unsigned t; //virtual time
 
 	logic [31:0] counts [2**NUM_IN_LOG2-1:0]; //first 8 bits of each channel (count)
 
@@ -32,15 +32,16 @@ end
 endgenerate
 
 
-	byte total; //# packets total to output
-	byte count; //current # packets output
+	byte unsigned total; //# packets total to output
+	byte unsigned count; //current # packets output
 	logic [NUM_IN_LOG2-1:0] current;
 
 
 
 	//queue_up selects the next packet to send
 	queue_up q_inst(.valid_i(valid), .count(counts),
-		.pick(pick), .valid_o(valid_o),.size(size),.*);
+		//.pick(pick), .valid_o(valid_o),.size(size),.*);
+		.pick(pick), .valid_o(valid_o),.*);
 
 
 
@@ -113,7 +114,7 @@ endgenerate
 					output_data_valid <= 1'b1;
 					fifo_rdreq[pick] <= 1'b1;
 					//set others to 0
-					total <= size;
+					total <= fifo_data[pick][7:0];
 					count <= 8'b01;
 				end else begin
 					/* this is a stupid syntax thing */
