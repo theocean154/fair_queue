@@ -3,7 +3,8 @@
 
 module fq #(parameter NUM_IN_LOG2=3)
 (
-	input logic clk, rst,
+	input logic clk, 
+	input logic rst,
 	output logic fifo_rdreq [2**NUM_IN_LOG2-1:0],
 	input fifo_empty[2**NUM_IN_LOG2-1:0],
 	input [63:0] fifo_data [2**NUM_IN_LOG2-1:0],
